@@ -1,0 +1,12 @@
+# Fine riga coerenti dopo un clone, su qualsiasi sistema.
+* text=auto
+
+# Gli script di Windows devono restare CRLF: con LF le etichette di goto e call non funzionano.
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Gli script per Linux e macOS restano LF.
+*.sh text eol=lf
+
+*.png binary
+*.jpg binary

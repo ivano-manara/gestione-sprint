@@ -1,0 +1,222 @@
+{
+  "name": "gestione-sprint",
+  "version": "0.8.3",
+  "description": "Mod unico per Claude Code: piano sprint con memoria di progetto, business, domande e conflitti a scelta obbligata; controllo del contesto, compressione dell'output e compattazione verificata per PHP, Laravel, Python e LangChain.",
+  "author": {
+    "name": "Ivano Manara"
+  },
+  "types": "./types/index.d.ts",
+  "userConfig": {
+    "cartellaPiano": {
+      "type": "string",
+      "title": "Cartella del piano",
+      "description": "Cartella, relativa al progetto, dove stanno piano.json e SPRINT.md.",
+      "default": ".claude/sprint"
+    },
+    "skillBrainstorming": {
+      "type": "string",
+      "title": "Skill di brainstorming",
+      "description": "Skill usata per l'analisi.",
+      "default": "superpowers:brainstorming"
+    },
+    "sicurezza": {
+      "type": "string",
+      "title": "Modalita sicurezza",
+      "description": "blocca impedisce modifiche al codice se il task in corso ha domande bloccanti; avvisa le segnala soltanto.",
+      "options": [
+        "blocca",
+        "avvisa"
+      ],
+      "default": "blocca"
+    },
+    "taskPerGiro": {
+      "type": "number",
+      "title": "Task per giro autonomo",
+      "description": "Quanti task esegue /sprint-procedi prima di fermarsi e riassumere.",
+      "default": 3
+    },
+    "apriAllAvvio": {
+      "type": "boolean",
+      "title": "Apri il pannello all'avvio",
+      "description": "Apre il pannello sprint quando il progetto ha gia un piano.",
+      "default": true
+    },
+    "proteggiMemoria": {
+      "type": "boolean",
+      "title": "Proteggi la memoria del progetto",
+      "description": "CLAUDE.md, AGENTS.md, .claude/memory e memory-bank si modificano solo per applicare scelte gia approvate.",
+      "default": true
+    },
+    "profile": {
+      "type": "string",
+      "title": "Profilo progetto",
+      "description": "auto riconosce Laravel, PHP, Python e LangChain/LangGraph dai file del progetto; oppure scegli tu.",
+      "options": [
+        "auto",
+        "laravel",
+        "php",
+        "python",
+        "langchain",
+        "generico"
+      ],
+      "default": "auto"
+    },
+    "showMeter": {
+      "type": "string",
+      "title": "Indicatore del contesto",
+      "description": "Dove mostrare la barra con la percentuale: sopra il prompt (banda), nella riga di stato, in entrambe o da nessuna parte.",
+      "options": [
+        "entrambi",
+        "banda",
+        "stato",
+        "spento"
+      ],
+      "default": "entrambi"
+    },
+    "proactive": {
+      "type": "boolean",
+      "title": "Suggerimenti proattivi",
+      "description": "Il mod propone da solo le azioni utili (compattare, ripartire, creare CLAUDE.md) con pulsanti sopra il prompt.",
+      "default": true
+    },
+    "conflictCheck": {
+      "type": "boolean",
+      "title": "Controllo delle contraddizioni",
+      "description": "Un modello piccolo controlla le contraddizioni: tra le tue richieste in chat, tra le risposte e la memoria del progetto, tra le modifiche di Claude al piano e la memoria. Decidi sempre tu.",
+      "default": true
+    },
+    "conflictModel": {
+      "type": "string",
+      "title": "Modello per i controlli di coerenza",
+      "description": "Alias o id del modello usato per il controllo (predefinito: haiku, il più economico).",
+      "default": "haiku"
+    },
+    "barStyle": {
+      "type": "string",
+      "title": "Stile della barra",
+      "description": "blocchi usa █░; ascii usa #- per terminali che non mostrano i blocchi.",
+      "options": [
+        "blocchi",
+        "ascii"
+      ],
+      "default": "blocchi"
+    },
+    "claudeMem": {
+      "type": "string",
+      "title": "Integrazione con claude-mem",
+      "description": "auto la usa se trova claude-mem (plugin, strumenti o ~/.claude-mem) e, se manca, ne propone l'installazione; attivo la forza; spento la ignora e non la propone.",
+      "options": [
+        "auto",
+        "attivo",
+        "spento"
+      ],
+      "default": "auto"
+    },
+    "warnPercent": {
+      "type": "number",
+      "title": "Soglia di avviso (%)",
+      "description": "Percentuale di contesto oltre la quale compare il primo avviso.",
+      "default": 60
+    },
+    "strongPercent": {
+      "type": "number",
+      "title": "Soglia di avviso forte (%)",
+      "description": "Percentuale di contesto oltre la quale si consiglia una nuova sessione.",
+      "default": 80
+    },
+    "criticalPercent": {
+      "type": "number",
+      "title": "Soglia critica (%)",
+      "description": "Oltre questa percentuale il mod chiede subito se compattare, con i pulsanti pronti.",
+      "default": 90
+    },
+    "maxTurns": {
+      "type": "number",
+      "title": "Turni massimi consigliati",
+      "description": "Dopo questo numero di turni compare l'avviso di sessione lunga.",
+      "default": 40
+    },
+    "maxFileKb": {
+      "type": "number",
+      "title": "Dimensione massima file (KB)",
+      "description": "Un file più grande si legge solo a pezzi (con limit).",
+      "default": 200
+    },
+    "largeFileAction": {
+      "type": "string",
+      "title": "Azione sui file grandi",
+      "description": "block rifiuta la lettura intera; warn la permette e avvisa.",
+      "options": [
+        "block",
+        "warn"
+      ],
+      "default": "block"
+    },
+    "blockedDirs": {
+      "type": "string",
+      "title": "Cartelle escluse comuni",
+      "description": "Sempre escluse, in aggiunta a quelle del profilo. Separate da virgola; anche percorsi (storage/framework) e suffissi (*.egg-info).",
+      "default": "node_modules,dist,build,.git,.next,.nuxt,target,coverage,.cache,.venv,venv,__pycache__"
+    },
+    "autoCompactPercent": {
+      "type": "number",
+      "title": "Compattazione automatica (%)",
+      "description": "Se maggiore di 0, a fine turno compatta da solo la sessione oltre questa percentuale di contesto. 0 la spegne.",
+      "default": 0
+    },
+    "compactInstructions": {
+      "type": "string",
+      "title": "Note aggiuntive per la compattazione",
+      "description": "Il riassunto ha già una struttura fissa (obiettivo, decisioni, file, stato, prossimo passo) e i punti del registro. Qui puoi aggiungere cosa conservare in più.",
+      "default": ""
+    },
+    "suggestRemedies": {
+      "type": "boolean",
+      "title": "Suggerisci i rimedi negli avvisi",
+      "description": "Gli avvisi indicano anche i comandi /alleggerisci, /peso e /passaggio.",
+      "default": true
+    },
+    "heavyFileKb": {
+      "type": "number",
+      "title": "Soglia file pesanti per tipo (KB)",
+      "description": "Log, lock, file generati, dati e notebook oltre questa soglia non si leggono per intero.",
+      "default": 20
+    },
+    "stackHints": {
+      "type": "boolean",
+      "title": "Suggerimenti sui comandi",
+      "description": "route:list, composer show, npm ls e git log senza limiti ricevono un suggerimento al primo tentativo.",
+      "default": true
+    },
+    "quietTests": {
+      "type": "boolean",
+      "title": "pytest con meno output",
+      "description": "Aggiunge -q --tb=short a pytest quando non hai indicato la verbosità.",
+      "default": true
+    },
+    "protectSecrets": {
+      "type": "boolean",
+      "title": "Proteggi i file con credenziali",
+      "description": "Non legge .env, chiavi e certificati (i modelli .env.example restano leggibili).",
+      "default": true
+    },
+    "compressOutput": {
+      "type": "boolean",
+      "title": "Compressione intelligente dell'output",
+      "description": "Riduce frame di librerie, righe ripetute e test superati; errori e avvisi restano sempre. CC_RAW=1 davanti al comando dà l'originale.",
+      "default": true
+    },
+    "compressMinChars": {
+      "type": "number",
+      "title": "Compressione: lunghezza minima (caratteri)",
+      "description": "Sotto questa lunghezza l'output non viene toccato.",
+      "default": 3000
+    },
+    "projectGuide": {
+      "type": "boolean",
+      "title": "Guida per la versione (Laravel, LangChain)",
+      "description": "Aggiunge al prompt poche righe con i comandi compatti adatti alla versione di Laravel o di LangChain/LangGraph.",
+      "default": true
+    }
+  }
+}

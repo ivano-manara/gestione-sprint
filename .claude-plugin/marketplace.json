@@ -1,0 +1,15 @@
+{
+  "name": "mod-progetti",
+  "description": "Mod di Ivano per Claude Code: piano sprint con memoria di progetto e controllo del contesto (ex controllo-contesto) in un unico mod.",
+  "owner": {
+    "name": "Ivano Manara"
+  },
+  "plugins": [
+    {
+      "name": "gestione-sprint",
+      "source": "./gestione-sprint",
+      "version": "0.8.3",
+      "description": "Piano sprint, memoria di progetto, business, conflitti a scelta obbligata; barra del contesto, compressione dell'output, compattazione verificata, contraddizioni della chat, claude-mem, Laravel/PHP/Python/LangChain."
+    }
+  ]
+}

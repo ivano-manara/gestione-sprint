@@ -1,0 +1,17 @@
+# generati
+install.log
+uninstall.log
+.claude-plugin/types/
+**/.claude-plugin/types/
+
+# sistema e editor
+.DS_Store
+Thumbs.db
+*.swp
+.vscode/
+.idea/
+
+# anteprima grafica
+tools/anteprima/disegni.txt
+tools/anteprima/anteprima.html
+tools/anteprima/img/
